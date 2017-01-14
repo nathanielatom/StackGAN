@@ -59,7 +59,7 @@ class Dataset(object):
         if name.find('jpg/') != -1:  # flowers dataset
             class_name = 'class_%05d/' % class_id
             name = name.replace('jpg/', class_name)
-        cap_path = '%s/text_c10/%s.txt' %\
+        cap_path = '%s/CUB_200_2011/text_c10/%s.txt' %\
                    (self.workdir, name)
         with open(cap_path, "r") as f:
             captions = f.read().split('\n')

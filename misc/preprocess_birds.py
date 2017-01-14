@@ -124,13 +124,15 @@ def split_train_test_data(filename, filename_bbox):
 def convert_birds_dataset_pickle(inpath):
     # Load dictionary between image filename to its bbox
     filename_bbox = load_bbox(inpath)
-    train_filenames, test_filenames = split_train_test_data(os.path.join(inpath, 'CUB_200_2011/train_test_split.txt'), filename_bbox)
+    # train_filenames, test_filenames = split_train_test_data(os.path.join(inpath, 'CUB_200_2011/train_test_split.txt'), filename_bbox)
 
     # ## For Train data
     train_dir = os.path.join(inpath, 'StackGan/train/')
+    train_filenames = load_filenames(train_dir)
     save_data_list(inpath, train_dir, train_filenames, filename_bbox)
     # ## For Test data
     test_dir = os.path.join(inpath, 'StackGan/test/')
+    test_filenames = load_filenames(test_dir)
     save_data_list(inpath, test_dir, test_filenames, filename_bbox)
 
 
