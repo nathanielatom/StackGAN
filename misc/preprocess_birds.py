@@ -4,7 +4,7 @@ from __future__ import print_function
 from __future__ import unicode_literals
 
 # import tensorflow as tf
-import numpy as np
+# import numpy as np
 import os
 import pickle
 from misc.utils import get_image
@@ -19,7 +19,31 @@ import pandas as pd
 LR_HR_RETIO = 4
 IMSIZE = 256
 LOAD_SIZE = int(IMSIZE * 76 / 64)
-BIRD_DIR = '~/Documents/datasets/birds'
+BIRD_DIR = os.path.expanduser('~/Documents/datasets/birds')
+
+
+def _create_directory(pathname, replace_char_dict=None):
+    """
+    Create *pathname* directory structure.
+
+    Parameters
+    ----------
+    pathname: string
+        Full name of relative or absolute path to be created. 
+        If specifying a directory directly make sure to include `os.sep` at the end.
+    replace_char_dict: dict, optional
+        Dictionary of character sequences to replace within *pathname*. Default is {":": "-"}.
+
+    """
+    if replace_char_dict is None: replace_char_dict = {":": "-"}
+    if isinstance(pathname, unicode):
+        for key, val in replace_char_dict.items():
+            pathname.replace(key, val)
+        path = os.sep.join(pathname.split(os.sep)[:-1])
+        if path:
+            if not os.path.isdir(path):
+                os.makedirs(path)
+    return pathname
 
 
 def load_filenames(data_dir):
@@ -73,27 +97,40 @@ def save_data_list(inpath, outpath, filenames, filename_bbox):
     print('images', len(hr_images), hr_images[0].shape, lr_images[0].shape)
     #
     outfile = outpath + str(LOAD_SIZE) + 'images.pickle'
-    with open(outfile, 'wb') as f_out:
+    with open(_create_directory(outfile), 'wb') as f_out:
         pickle.dump(hr_images, f_out)
         print('save to: ', outfile)
     #
     outfile = outpath + str(lr_size) + 'images.pickle'
-    with open(outfile, 'wb') as f_out:
+    with open(_create_directory(outfile), 'wb') as f_out:
         pickle.dump(lr_images, f_out)
         print('save to: ', outfile)
+
+
+def split_train_test_data(filename, filename_bbox):
+    all_filenames = filename_bbox.keys()
+    train_filenames = []
+    test_filenames = []
+    with open(filename) as f:
+        for line in f.readlines():
+            imagindex, ttype = line.split(' ')
+            if int(ttype[0]):
+                test_filenames.append(all_filenames[int(imagindex) - 1])
+            else:
+                train_filenames.append(all_filenames[int(imagindex) - 1])
+    return train_filenames, test_filenames
 
 
 def convert_birds_dataset_pickle(inpath):
     # Load dictionary between image filename to its bbox
     filename_bbox = load_bbox(inpath)
-    # ## For Train data
-    train_dir = os.path.join(inpath, 'train/')
-    train_filenames = load_filenames(train_dir)
-    save_data_list(inpath, train_dir, train_filenames, filename_bbox)
+    train_filenames, test_filenames = split_train_test_data(os.path.join(inpath, 'CUB_200_2011/train_test_split.txt'), filename_bbox)
 
+    # ## For Train data
+    train_dir = os.path.join(inpath, 'StackGan/train/')
+    save_data_list(inpath, train_dir, train_filenames, filename_bbox)
     # ## For Test data
-    test_dir = os.path.join(inpath, 'test/')
-    test_filenames = load_filenames(test_dir)
+    test_dir = os.path.join(inpath, 'StackGan/test/')
     save_data_list(inpath, test_dir, test_filenames, filename_bbox)
 
 
