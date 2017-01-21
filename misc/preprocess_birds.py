@@ -19,7 +19,7 @@ import pandas as pd
 LR_HR_RETIO = 4
 IMSIZE = 256
 LOAD_SIZE = int(IMSIZE * 76 / 64)
-BIRD_DIR = os.path.expanduser('~/Documents/datasets/birds')
+BIRD_DIR = os.path.expanduser('~/StackGAN/Data/birds')
 
 
 def _create_directory(pathname, replace_char_dict=None):
@@ -67,7 +67,7 @@ def load_bbox(data_dir):
     #
     filename_bbox = {img_file[:-4]: [] for img_file in filenames}
     numImgs = len(filenames)
-    for i in xrange(0, numImgs):
+    for i in range(0, numImgs):
         # bbox = [x-left, y-top, width, height]
         bbox = df_bounding_boxes.iloc[i][1:].tolist()
 
@@ -127,11 +127,11 @@ def convert_birds_dataset_pickle(inpath):
     # train_filenames, test_filenames = split_train_test_data(os.path.join(inpath, 'CUB_200_2011/train_test_split.txt'), filename_bbox)
 
     # ## For Train data
-    train_dir = os.path.join(inpath, 'StackGan/train/')
+    train_dir = os.path.join(inpath, 'train/')
     train_filenames = load_filenames(train_dir)
     save_data_list(inpath, train_dir, train_filenames, filename_bbox)
     # ## For Test data
-    test_dir = os.path.join(inpath, 'StackGan/test/')
+    test_dir = os.path.join(inpath, 'test/')
     test_filenames = load_filenames(test_dir)
     save_data_list(inpath, test_dir, test_filenames, filename_bbox)
 
