@@ -6,7 +6,7 @@ with Stacked Generative Adversarial Networks](https://arxiv.org/pdf/1612.03242v1
 
 
 ### Dependencies
-python 2.7
+python 3.5
 
 [TensorFlow 0.11](https://www.tensorflow.org/get_started/os_setup)
 
@@ -16,7 +16,7 @@ python 2.7
 
 In addition, please add the project folder to PYTHONPATH and `pip install` the following packages:
 - `prettytensor`
-- `progressbar`
+- `tqdm`
 - `python-dateutil`
 - `easydict`
 - `pandas`

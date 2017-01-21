@@ -8,7 +8,7 @@ import scipy.misc
 import os
 import sys
 from six.moves import range
-from progressbar import ETA, Bar, Percentage, ProgressBar
+from tqdm import tqdm
 
 
 from misc.config import cfg
@@ -326,20 +326,13 @@ class CondGANTrainer(object):
                 number_example = self.dataset.train._num_examples
                 updates_per_epoch = int(number_example / self.batch_size)
                 epoch_start = int(counter / updates_per_epoch)
-                for epoch in range(epoch_start, self.max_epoch):
-                    widgets = ["epoch #%d|" % epoch,
-                               Percentage(), Bar(), ETA()]
-                    pbar = ProgressBar(maxval=updates_per_epoch,
-                                       widgets=widgets)
-                    pbar.start()
-
+                for epoch in tqdm(range(epoch_start, self.max_epoch)):
                     if epoch % lr_decay_step == 0 and epoch != 0:
                         generator_lr *= 0.5
                         discriminator_lr *= 0.5
 
                     all_log_vals = []
-                    for i in range(updates_per_epoch):
-                        pbar.update(i)
+                    for i in tqdm(range(updates_per_epoch)):
                         # training d
                         images, wrong_images, embeddings, _, _ =\
                             self.dataset.train.next_batch(self.batch_size,
@@ -374,7 +367,7 @@ class CondGANTrainer(object):
                                               self.exp_name,
                                               str(counter))
                             fn = saver.save(sess, snapshot_path)
-                            print("Model saved in file: %s" % fn)
+                            tqdm.write("Model saved in file: %s" % fn)
 
                     img_sum = self.epoch_sum_images(sess, cfg.TRAIN.NUM_COPY)
                     summary_writer.add_summary(img_sum, counter)
@@ -383,12 +376,12 @@ class CondGANTrainer(object):
                     dic_logs = {}
                     for k, v in zip(log_keys, avg_log_vals):
                         dic_logs[k] = v
-                        # print(k, v)
+                        # tqdm.write(k, v)
 
                     log_line = "; ".join("%s: %s" %
                                          (str(k), str(dic_logs[k]))
                                          for k in dic_logs)
-                    print("Epoch %d | " % (epoch) + log_line)
+                    tqdm.write("Epoch %d | " % (epoch) + log_line)
                     sys.stdout.flush()
                     if np.any(np.isnan(avg_log_vals)):
                         raise ValueError("NaN detected!")
