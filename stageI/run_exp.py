@@ -5,11 +5,11 @@ import argparse
 import pprint
 import os
 
-from StackGAN.misc.datasets import TextDataset
-from StackGAN.stageI.model import CondGAN
-from StackGAN.stageI.trainer import CondGANTrainer
-from StackGAN.misc.utils import _create_directory
-from StackGAN.misc.config import cfg, cfg_from_file
+from misc.datasets import TextDataset
+from stageI.model import CondGAN
+from stageI.trainer import CondGANTrainer
+from misc.utils import _create_directory
+from misc.config import cfg, cfg_from_file
 
 
 def parse_args():
