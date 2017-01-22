@@ -75,7 +75,7 @@ def _create_directory(pathname, replace_char_dict=None):
 
     """
     if replace_char_dict is None: replace_char_dict = {":": "-"}
-    if isinstance(pathname, unicode):
+    if isinstance(pathname, str):
         for key, val in replace_char_dict.items():
             pathname.replace(key, val)
         path = os.sep.join(pathname.split(os.sep)[:-1])
