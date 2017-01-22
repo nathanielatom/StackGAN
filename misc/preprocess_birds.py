@@ -1,6 +1,6 @@
 import os
 import pickle
-import misc.utils as _utils
+import utils as _utils
 import scipy.misc
 import pandas as pd
 
