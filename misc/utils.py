@@ -2,9 +2,6 @@
 Some codes from
 https://github.com/openai/improved-gan/blob/master/imagenet/utils.py
 """
-from __future__ import division
-from __future__ import print_function
-
 import numpy as np
 import scipy.misc
 import os

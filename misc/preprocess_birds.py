@@ -1,17 +1,8 @@
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
-from __future__ import unicode_literals
-
-# import tensorflow as tf
-# import numpy as np
 import os
 import pickle
 from misc.utils import get_image
 import scipy.misc
 import pandas as pd
-
-# from glob import glob
 
 # TODO: 1. current label is temporary, need to change according to real label
 #       2. Current, only split the data into train, need to handel train, test
