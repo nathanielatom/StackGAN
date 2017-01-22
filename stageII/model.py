@@ -1,11 +1,8 @@
-from __future__ import division
-from __future__ import print_function
-
 import prettytensor as pt
 import tensorflow as tf
-import misc.custom_ops
-from misc.custom_ops import leaky_rectify
-from misc.config import cfg
+
+from StackGAN.misc.custom_ops import leaky_rectify
+from StackGAN.misc.config import cfg
 
 # TODO:  Does template.constrct() really shared the computation
 # when multipel times of construct are done

@@ -1,7 +1,7 @@
 import prettytensor as pt
 import tensorflow as tf
-from misc.custom_ops import leaky_rectify
-from misc.config import cfg
+from StackGAN.misc.custom_ops import leaky_rectify
+from StackGAN.misc.config import cfg
 
 
 class CondGAN(object):
