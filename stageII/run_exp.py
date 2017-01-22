@@ -1,18 +1,14 @@
-from __future__ import division
-from __future__ import print_function
-
-import tensorflow as tf
 import dateutil
 import dateutil.tz
 import datetime
 import argparse
 import pprint
 
-from misc.datasets import TextDataset
-from stageII.model import CondGAN
-from stageII.trainer import CondGANTrainer
-from misc.utils import _create_directory
-from misc.config import cfg, cfg_from_file
+from StackGAN.misc.datasets import TextDataset
+from StackGAN.stageII.model import CondGAN
+from StackGAN.stageII.trainer import CondGANTrainer
+from StackGAN.misc.utils import _create_directory
+from StackGAN.misc.config import cfg, cfg_from_file
 
 
 def parse_args():

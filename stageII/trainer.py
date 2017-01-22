@@ -1,6 +1,3 @@
-from __future__ import division
-from __future__ import print_function
-
 import prettytensor as pt
 import tensorflow as tf
 import numpy as np
@@ -11,9 +8,8 @@ from six.moves import range
 from tqdm import tqdm
 from PIL import Image, ImageDraw, ImageFont
 
-
-from misc.config import cfg
-from misc.utils import _create_directory
+from StackGAN.misc.config import cfg
+from StackGAN.misc.utils import _create_directory
 
 TINY = 1e-8
 
