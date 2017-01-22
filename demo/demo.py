@@ -12,7 +12,7 @@ from PIL import Image, ImageDraw, ImageFont
 import re
 
 from misc.config import cfg, cfg_from_file
-from misc.utils import mkdir_p
+from misc.utils import _create_directory
 from stageII.model import CondGAN
 
 
@@ -107,7 +107,7 @@ def save_super_images(sample_batchs, hr_sample_batchs,
                       startID, save_dir):
     if not os.path.isdir(save_dir):
         print('Make a new folder: ', save_dir)
-        mkdir_p(save_dir)
+        _create_directory(save_dir)
 
     # Save up to 16 samples for each text embedding/sentence
     img_shape = hr_sample_batchs[0][0].shape

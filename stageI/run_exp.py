@@ -11,7 +11,7 @@ import os
 from misc.datasets import TextDataset
 from stageI.model import CondGAN
 from stageI.trainer import CondGANTrainer
-from misc.utils import mkdir_p
+from misc.utils import _create_directory
 from misc.config import cfg, cfg_from_file
 
 
@@ -51,7 +51,7 @@ if __name__ == "__main__":
 
         ckt_logs_dir = "ckt_logs/%s/%s_%s" % \
             (cfg.DATASET_NAME, cfg.CONFIG_NAME, timestamp)
-        mkdir_p(ckt_logs_dir)
+        _create_directory(ckt_logs_dir)
     else:
         s_tmp = cfg.TRAIN.PRETRAINED_MODEL
         ckt_logs_dir = s_tmp[:s_tmp.find('.ckpt')]

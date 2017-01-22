@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 
 from misc.config import cfg
-from misc.utils import mkdir_p
+from misc.utils import _create_directory
 
 TINY = 1e-8
 
@@ -564,7 +564,7 @@ class CondGANTrainer(object):
             folder = s_tmp[:s_tmp.rfind('/')]
             if not os.path.isdir(folder):
                 print('Make a new folder: ', folder)
-                mkdir_p(folder)
+                _create_directory(folder)
 
             # First row with up to 8 samples
             real_img = (images[j] + 1.0) * 127.5

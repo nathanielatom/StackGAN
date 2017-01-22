@@ -12,7 +12,7 @@ from tqdm import tqdm
 
 
 from misc.config import cfg
-from misc.utils import mkdir_p
+from misc.utils import _create_directory
 
 TINY = 1e-8
 
@@ -396,7 +396,7 @@ class CondGANTrainer(object):
             folder = s_tmp[:s_tmp.rfind('/')]
             if not os.path.isdir(folder):
                 print('Make a new folder: ', folder)
-                mkdir_p(folder)
+                _create_directory(folder)
             superimage = [images[j]]
             # cfg.TRAIN.NUM_COPY samples for each text embedding/sentence
             for i in range(len(sample_batchs)):

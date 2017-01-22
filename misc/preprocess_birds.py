@@ -1,6 +1,6 @@
 import os
 import pickle
-from misc.utils import get_image
+import misc.utils as _utils
 import scipy.misc
 import pandas as pd
 
@@ -11,30 +11,6 @@ LR_HR_RETIO = 4
 IMSIZE = 256
 LOAD_SIZE = int(IMSIZE * 76 / 64)
 BIRD_DIR = os.path.expanduser('~/StackGAN/Data/birds')
-
-
-def _create_directory(pathname, replace_char_dict=None):
-    """
-    Create *pathname* directory structure.
-
-    Parameters
-    ----------
-    pathname: string
-        Full name of relative or absolute path to be created. 
-        If specifying a directory directly make sure to include `os.sep` at the end.
-    replace_char_dict: dict, optional
-        Dictionary of character sequences to replace within *pathname*. Default is {":": "-"}.
-
-    """
-    if replace_char_dict is None: replace_char_dict = {":": "-"}
-    if isinstance(pathname, unicode):
-        for key, val in replace_char_dict.items():
-            pathname.replace(key, val)
-        path = os.sep.join(pathname.split(os.sep)[:-1])
-        if path:
-            if not os.path.isdir(path):
-                os.makedirs(path)
-    return pathname
 
 
 def load_filenames(data_dir):
@@ -76,7 +52,7 @@ def save_data_list(inpath, outpath, filenames, filename_bbox):
     for key in filenames:
         bbox = filename_bbox[key]
         f_name = '%s/CUB_200_2011/images/%s.jpg' % (inpath, key)
-        img = get_image(f_name, LOAD_SIZE, is_crop=True, bbox=bbox)
+        img = _utils.get_image(f_name, LOAD_SIZE, is_crop=True, bbox=bbox)
         img = img.astype('uint8')
         hr_images.append(img)
         lr_img = scipy.misc.imresize(img, [lr_size, lr_size], 'bicubic')
@@ -88,12 +64,12 @@ def save_data_list(inpath, outpath, filenames, filename_bbox):
     print('images', len(hr_images), hr_images[0].shape, lr_images[0].shape)
     #
     outfile = outpath + str(LOAD_SIZE) + 'images.pickle'
-    with open(_create_directory(outfile), 'wb') as f_out:
+    with open(_utils._create_directory(outfile), 'wb') as f_out:
         pickle.dump(hr_images, f_out)
         print('save to: ', outfile)
     #
     outfile = outpath + str(lr_size) + 'images.pickle'
-    with open(_create_directory(outfile), 'wb') as f_out:
+    with open(_utils._create_directory(outfile), 'wb') as f_out:
         pickle.dump(lr_images, f_out)
         print('save to: ', outfile)
 

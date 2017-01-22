@@ -5,7 +5,6 @@ https://github.com/openai/improved-gan/blob/master/imagenet/utils.py
 import numpy as np
 import scipy.misc
 import os
-import errno
 
 
 def get_image(image_path, image_size, is_crop=False, bbox=None):
@@ -62,11 +61,26 @@ def colorize(img):
     return img
 
 
-def mkdir_p(path):
-    try:
-        os.makedirs(path)
-    except OSError as exc:  # Python >2.5
-        if exc.errno == errno.EEXIST and os.path.isdir(path):
-            pass
-        else:
-            raise
+def _create_directory(pathname, replace_char_dict=None):
+    """
+    Create *pathname* directory structure.
+
+    Parameters
+    ----------
+    pathname: string
+        Full name of relative or absolute path to be created. 
+        If specifying a directory directly make sure to include `os.sep` at the end.
+    replace_char_dict: dict, optional
+        Dictionary of character sequences to replace within *pathname*. Default is {":": "-"}.
+
+    """
+    if replace_char_dict is None: replace_char_dict = {":": "-"}
+    if isinstance(pathname, unicode):
+        for key, val in replace_char_dict.items():
+            pathname.replace(key, val)
+        path = os.sep.join(pathname.split(os.sep)[:-1])
+        if path:
+            if not os.path.isdir(path):
+                os.makedirs(path)
+    return pathname
+
