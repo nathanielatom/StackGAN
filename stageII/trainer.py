@@ -379,7 +379,7 @@ class CondGANTrainer(object):
         if len(self.model_path) > 0:
             print("Reading model parameters from %s" % self.model_path)
             all_vars = tf.trainable_variables()
-            # all_vars = tf.all_variables()
+            # all_vars = tf.global_variables()
             restore_vars = []
             for var in all_vars:
                 if var.name.startswith('g_') or var.name.startswith('d_'):
@@ -457,11 +457,11 @@ class CondGANTrainer(object):
         with tf.Session(config=config) as sess:
             with tf.device("/gpu:%d" % cfg.GPU_ID):
                 counter = self.build_model(sess)
-                saver = tf.train.Saver(tf.all_variables(),
+                saver = tf.train.Saver(tf.global_variables(),
                                        keep_checkpoint_every_n_hours=5)
 
                 # summary_op = tf.merge_all_summaries()
-                summary_writer = tf.train.SummaryWriter(self.log_dir,
+                summary_writer = tf.summary.FileWriter(self.log_dir,
                                                         sess.graph)
 
                 if cfg.TRAIN.FINETUNE_LR:
@@ -648,7 +648,7 @@ class CondGANTrainer(object):
                 if self.model_path.find('.ckpt') != -1:
                     self.init_opt()
                     print("Reading model parameters from %s" % self.model_path)
-                    saver = tf.train.Saver(tf.all_variables())
+                    saver = tf.train.Saver(tf.global_variables())
                     saver.restore(sess, self.model_path)
                     # self.eval_one_dataset(sess, self.dataset.train,
                     #                       self.log_dir, subset='train')
