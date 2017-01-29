@@ -45,7 +45,7 @@ if __name__ == "__main__":
     if cfg.TRAIN.FLAG:
         filename_train = '%s/train' % (datadir)
         dataset.train = dataset.get_data(filename_train)
-        ckt_logs_dir = "ckt_logs/%s/%s_%s" % \
+        ckt_logs_dir = "/dev/shm/ckt_logs/%s/%s_%s" % \
             (cfg.DATASET_NAME, cfg.CONFIG_NAME, timestamp)
         _create_directory(ckt_logs_dir)
     else:
